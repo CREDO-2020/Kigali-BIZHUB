@@ -64,3 +64,13 @@ button, input { font: inherit; }
 .aiPromptGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.aiPromptGrid button{display:flex;align-items:flex-start;gap:9px;text-align:left;padding:14px 16px;border:1px solid var(--border,#242a36);border-radius:12px;background:var(--panel,#11151d);color:inherit;cursor:pointer}.aiPromptGrid button:hover{border-color:#6253c7}
 .aiChat{overflow:hidden}.aiChatHeader{padding:18px 20px;border-bottom:1px solid var(--border,#242a36)}.aiChatHeader div{display:grid;gap:4px}.aiChatHeader small{color:var(--muted,#8c93a1)}.aiAnswer{display:flex;gap:12px;padding:20px;border-bottom:1px solid var(--border,#242a36)}.aiAnswer p{white-space:pre-wrap;line-height:1.65;margin:7px 0 0;color:#d9dce4}.aiAvatar{width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:grid;place-items:center;background:rgba(124,92,255,.14)}.aiComposer{padding:18px;display:grid;gap:10px}.aiComposer textarea{width:100%;resize:vertical;border:1px solid var(--border,#242a36);background:var(--input,#0c1017);color:inherit;border-radius:12px;padding:13px 14px;outline:none;font:inherit}.aiComposer textarea:focus{border-color:#6253c7}.aiComposer .primaryButton{justify-self:end;display:inline-flex;align-items:center;gap:8px}
 @media(max-width:720px){.aiPromptGrid{grid-template-columns:1fr}.aiHero{padding:20px}.aiHero h2{font-size:23px}}
+
+
+/* Signup */
+.signupCard{width:min(100%,680px)}
+.authSelect{width:100%;border:1px solid var(--border);background:#091625;color:#fff;border-radius:10px;padding:12px 13px;outline:none;font:inherit}
+.authSelect:focus{border-color:rgba(94,234,145,.65);box-shadow:0 0 0 3px rgba(34,197,94,.08)}
+.passwordField{position:relative}.passwordField input{padding-right:44px}.passwordToggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;background:transparent;color:#71849b;display:grid;place-items:center;cursor:pointer}.passwordToggle:hover{color:#fff}
+.passwordMeter{display:grid;gap:7px;margin-top:-3px}.passwordBars{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.passwordBars span{height:4px;border-radius:99px;background:#1b2b3d}.passwordBars span.filled{background:#22c55e}.passwordMeter small{color:#71849b;font-size:10px}
+.authTrust{display:flex;gap:8px;align-items:flex-start;margin-top:17px;padding-top:15px;border-top:1px solid var(--border);color:#71849b;font-size:10px;line-height:1.5}.authTrust svg{color:#5eea91;flex:none;margin-top:1px}
+@media(max-width:600px){.signupCard{padding:24px}.signupCard .formGrid{grid-template-columns:1fr}}
