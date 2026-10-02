@@ -1,32 +1,5 @@
+import "./dashboard.css";
 import Link from "next/link";
 import { ArrowUpRight, BarChart3, Bot, Boxes, ChevronRight, CircleHelp, LayoutDashboard, Package, Settings, ShoppingCart, Store, Users } from "lucide-react";
-
-const nav = [
-  ["Overview", LayoutDashboard],
-  ["Products", Package],
-  ["Orders", ShoppingCart],
-  ["Customers", Users],
-  ["AI Assistant", Bot],
-  ["Analytics", BarChart3],
-  ["Settings", Settings],
-] as const;
-
-export default function DashboardPage() {
-  return (
-    <main className="dashboard">
-      <aside className="sidebar">
-        <Link href="/" className="brand"><span className="brandMark">K</span><span>Kigali <b>BIZHUB</b></span></Link>
-        <div className="storeMini"><div className="storeIcon"><Store size={17}/></div><div><b>My Business</b><small>Free plan</small></div><ChevronRight size={15}/></div>
-        <nav>{nav.map(([label,Icon],i)=><a className={i===0?"active":""} href="#" key={label}><Icon size={17}/>{label}</a>)}</nav>
-        <div className="sidebarBottom"><a href="#"><CircleHelp size={17}/> Help center</a><div className="profile"><div className="avatar">C</div><div><b>Business Owner</b><small>owner@example.com</small></div></div></div>
-      </aside>
-      <section className="dashMain">
-        <header className="dashHeader"><div><small>Friday, October 2, 2026</small><h1>Good morning 👋</h1></div><Link href="/" className="viewStore"><Store size={16}/> View store <ArrowUpRight size={15}/></Link></header>
-        <div className="setup"><div><span className="setupTag">GET STARTED</span><h2>Set up your business in a few minutes.</h2><p>Add your first products and publish your online storefront.</p></div><button>Continue setup <ArrowUpRight size={16}/></button></div>
-        <div className="metricGrid">{[["Revenue","0 RWF","+0%"],["Orders","0","+0%"],["Customers","0","+0%"],["Products","0","+0%"]].map(([a,b,c])=><div className="metric" key={a}><small>{a}</small><strong>{b}</strong><em>{c}</em></div>)}</div>
-        <div className="dashGrid"><div className="panel sales"><div className="panelHead"><div><b>Sales overview</b><small>Your revenue will appear here</small></div><select><option>Last 30 days</option></select></div><div className="emptyChart"><BarChart3 size={30}/><b>No sales yet</b><span>Complete your setup and start selling online.</span></div></div><div className="panel aiPanel"><div className="aiSmall"><Bot size={18}/></div><span className="setupTag">BIZHUB AI</span><h3>Your AI business assistant</h3><p>Ask questions about sales, products, customers and marketing when your business data is connected.</p><button>Try AI assistant <ArrowUpRight size={15}/></button></div></div>
-        <div className="panel"><div className="panelHead"><div><b>Quick actions</b><small>Manage the important parts of your store.</small></div></div><div className="quickGrid"><a href="#"><Package size={19}/><b>Add product</b><span>Create your first product</span></a><a href="#"><Store size={19}/><b>Customize store</b><span>Add your business details</span></a><a href="#"><Boxes size={19}/><b>Manage inventory</b><span>Track stock levels</span></a></div></div>
-      </section>
-    </main>
-  );
-}
+const nav = [["Overview", LayoutDashboard],["Products", Package],["Orders", ShoppingCart],["Customers", Users],["AI Assistant", Bot],["Analytics", BarChart3],["Settings", Settings]] as const;
+export default function DashboardPage(){return <main className="dashboard"><aside className="sidebar"><Link href="/" className="brand"><span className="brandMark">K</span><span>Kigali <b>BIZHUB</b></span></Link><div className="storeMini"><div className="storeIcon"><Store size={17}/></div><div><b>My Business</b><small>Free plan</small></div><ChevronRight size={15}/></div><nav>{nav.map(([label,Icon],i)=><a className={i===0?"active":""} href="#" key={label}><Icon size={17}/>{label}</a>)}</nav><div className="sidebarBottom"><a href="#"><CircleHelp size={17}/> Help center</a><div className="profile"><div className="avatar">C</div><div><b>Business Owner</b><small>owner@example.com</small></div></div></div></aside><section className="dashMain"><header className="dashHeader"><div><small>Friday, October 2, 2026</small><h1>Good morning 👋</h1></div><Link href="/" className="viewStore"><Store size={16}/> View store <ArrowUpRight size={15}/></Link></header><div className="setup"><div><span className="setupTag">GET STARTED</span><h2>Set up your business in a few minutes.</h2><p>Add your first products and publish your online storefront.</p></div><button>Continue setup <ArrowUpRight size={16}/></button></div><div className="metricGrid">{[["Revenue","0 RWF","+0%"],["Orders","0","+0%"],["Customers","0","+0%"],["Products","0","+0%"]].map(([a,b,c])=><div className="metric" key={a}><small>{a}</small><strong>{b}</strong><em>{c}</em></div>)}</div><div className="dashGrid"><div className="panel sales"><div className="panelHead"><div><b>Sales overview</b><small>Your revenue will appear here</small></div><select><option>Last 30 days</option></select></div><div className="emptyChart"><BarChart3 size={30}/><b>No sales yet</b><span>Complete your setup and start selling online.</span></div></div><div className="panel aiPanel"><div className="aiSmall"><Bot size={18}/></div><span className="setupTag">BIZHUB AI</span><h3>Your AI business assistant</h3><p>Ask questions about sales, products, customers and marketing when your business data is connected.</p><button>Try AI assistant <ArrowUpRight size={15}/></button></div></div><div className="panel"><div className="panelHead"><div><b>Quick actions</b><small>Manage the important parts of your store.</small></div></div><div className="quickGrid"><a href="#"><Package size={19}/><b>Add product</b><span>Create your first product</span></a><a href="#"><Store size={19}/><b>Customize store</b><span>Add your business details</span></a><a href="#"><Boxes size={19}/><b>Manage inventory</b><span>Track stock levels</span></a></div></div></section></main>}
