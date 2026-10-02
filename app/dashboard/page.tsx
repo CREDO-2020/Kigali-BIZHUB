@@ -1,4 +1,3 @@
-import "./dashboard.css";
 import Link from "next/link";
 import { ArrowUpRight, BarChart3, Bot, Boxes, ChevronRight, CircleHelp, LayoutDashboard, Package, Settings, ShoppingCart, Store, Users } from "lucide-react";
 const nav = [["Overview", LayoutDashboard],["Products", Package],["Orders", ShoppingCart],["Customers", Users],["AI Assistant", Bot],["Analytics", BarChart3],["Settings", Settings]] as const;
