@@ -2,7 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { ImagePlus, Pencil, Search, Trash2, X } from "lucide-react";
+import { ImagePlus, Pencil, Search, Trash2, X, Package, Sparkles } from "lucide-react";
 
 type Product = {
   id:string; name:string; slug:string; description:string|null; price:number; compare_at_price:number|null;
@@ -22,10 +22,33 @@ export default function ProductsManager({businessId,currency,initialProducts,ini
   const [showForm,setShowForm]=useState(false);
   const [showCategory,setShowCategory]=useState(false);
   const [editing,setEditing]=useState<Product|null>(null);
-  const [busy,setBusy]=useState(false);
+  const [busy,setBusy]=useState(false);\n  const [aiBusy,setAiBusy]=useState(false);\n  const [aiMessage,setAiMessage]=useState("");
   const [error,setError]=useState("");
 
   const filtered=useMemo(()=>products.filter(p=>p.name.toLowerCase().includes(query.toLowerCase()) || (p.sku??"").toLowerCase().includes(query.toLowerCase())),[products,query]);
+
+  async function generateProductCopy(){
+    const form=document.getElementById("add-product") as HTMLFormElement|null;
+    if(!form)return;
+    setAiBusy(true); setAiMessage(""); setError("");
+    const data=new FormData(form);
+    const name=String(data.get("name")||"").trim();
+    const categoryId=String(data.get("category_id")||"");
+    const category=categories.find(c=>c.id===categoryId)?.name||"";
+    const details=String(data.get("description")||"").trim();
+    if(!name){setError("Enter a product name before using AI.");setAiBusy(false);return}
+    try{
+      const response=await fetch("/api/ai/product-description",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,category,details})});
+      const result=await response.json();
+      if(!response.ok)throw new Error(result.error||"AI generation failed.");
+      const description=form.elements.namedItem("description") as HTMLTextAreaElement|null;
+      const shortDescription=form.elements.namedItem("short_description") as HTMLTextAreaElement|null;
+      if(description)description.value=result.description||description.value;
+      if(shortDescription)shortDescription.value=result.short_description||shortDescription.value;
+      setAiMessage(result.tags?.length?\`Generated copy and \${result.tags.length} product tags.\`:"Generated product copy.");
+    }catch(e){setError(e instanceof Error?e.message:"AI generation failed.");}
+    finally{setAiBusy(false)}
+  }
 
   async function saveProduct(e:FormEvent<HTMLFormElement>){
     e.preventDefault(); setBusy(true); setError("");
@@ -92,7 +115,7 @@ export default function ProductsManager({businessId,currency,initialProducts,ini
     {showForm&&<div className="modalBackdrop"><div className="modalCard"><div className="modalHead"><div><b>{editing?"Edit product":"Add product"}</b><small>Product information and inventory</small></div><button onClick={()=>{setShowForm(false);setEditing(null)}}><X size={18}/></button></div>
       <form onSubmit={saveProduct} className="productForm" id="add-product">
         <div className="formGrid"><label>Name<input name="name" required defaultValue={editing?.name||""}/></label><label>Price ({currency})<input name="price" type="number" min="0" step="0.01" required defaultValue={editing?.price??0}/></label><label>Compare-at price<input name="compare_at_price" type="number" min="0" step="0.01" defaultValue={editing?.compare_at_price??""}/></label><label>Cost price<input name="cost_price" type="number" min="0" step="0.01" defaultValue={editing?.cost_price??""}/></label><label>SKU<input name="sku" defaultValue={editing?.sku||""}/></label><label>Barcode<input name="barcode" defaultValue={editing?.barcode||""}/></label><label>Brand<input name="brand" defaultValue={editing?.brand||""}/></label><label>Category<select name="category_id" defaultValue={editing?.category_id||""}><option value="">No category</option>{categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label><label>Stock<input name="stock" type="number" min="0" required defaultValue={editing?.stock??0}/></label><label>Low-stock alert<input name="low_stock_threshold" type="number" min="0" defaultValue={editing?.low_stock_threshold??5}/></label><label>Status<select name="status" defaultValue={editing?.status||"active"}><option value="active">Active</option><option value="draft">Draft</option><option value="archived">Archived</option></select></label><label>Product image<input name="image" type="file" accept="image/png,image/jpeg,image/webp"/></label></div>
-        <label>Description<textarea name="description" rows={4} defaultValue={editing?.description||""}/></label><label>Short description<textarea name="short_description" rows={2} defaultValue=""/></label>
+        <label>Description<textarea name="description" rows={4} defaultValue={editing?.description||""}/></label><label>Short description<textarea name="short_description" rows={2} defaultValue=""/></label><div className="aiActionRow"><button type="button" className="secondaryButton" onClick={generateProductCopy} disabled={aiBusy||busy}><Sparkles size={16}/>{aiBusy?"Generating...":"Generate with AI"}</button>{aiMessage&&<small>{aiMessage}</small>}</div>
         <div className="checkGrid"><label><input name="is_featured" type="checkbox" defaultChecked={editing?.is_featured}/> Featured</label><label><input name="is_popular" type="checkbox" defaultChecked={editing?.is_popular}/> Popular</label><label><input name="is_new" type="checkbox" defaultChecked={editing?.is_new??true}/> New</label></div>
         <button className="primaryButton" disabled={busy}>{busy?"Saving...":editing?"Save changes":"Create product"}</button>
       </form>
