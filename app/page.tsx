@@ -13,14 +13,14 @@ export default function Home() {
     <main>
       <nav className="nav">
         <Link href="/" className="brand"><span className="brandMark">K</span><span>Kigali <b>BIZHUB</b></span></Link>
-        <div className="navLinks"><a href="#features">Features</a><a href="#pricing">Pricing</a><Link href="/dashboard" className="navButton">Open Dashboard <ArrowRight size={16} /></Link></div>
+        <div className="navLinks"><a href="#features">Features</a><a href="#pricing">Pricing</a><Link href="/auth/sign-up" className="navButton">Open Dashboard <ArrowRight size={16} /></Link></div>
       </nav>
       <section className="hero">
         <div className="heroCopy">
           <div className="eyebrow"><Sparkles size={15} /> Built for ambitious African businesses</div>
           <h1>Turn your local business into a <span>digital business.</span></h1>
           <p className="heroText">Kigali BIZHUB gives small businesses a beautiful online store, sales dashboard, inventory tools and an AI assistant — all in one place.</p>
-          <div className="heroActions"><Link href="/dashboard" className="primaryButton">Create your business <ArrowRight size={18} /></Link><a href="#features" className="secondaryButton">Explore features</a></div>
+          <div className="heroActions"><Link href="/auth/sign-up" className="primaryButton">Create your business <ArrowRight size={18} /></Link><a href="#features" className="secondaryButton">Explore features</a></div>
           <div className="trust"><Check size={16} /> Start free. Upgrade when your business grows.</div>
         </div>
         <div className="dashboardPreview">
