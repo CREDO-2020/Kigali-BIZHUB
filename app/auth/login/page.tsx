@@ -37,7 +37,7 @@ export default function LoginPage() {
         <p>Sign in to manage your business, products and orders.</p>
         <form onSubmit={handleLogin} className="authForm">
           <label>Email<input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@business.com" /></label>
-          <label>Password<input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" /></label>
+          <label>Password<input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" /><Link href="/auth/forgot-password" className="authForgot">Forgot password?</Link></label>
           {error && <div className="authError">{error}</div>}
           <button disabled={loading}>{loading ? "Signing in..." : "Sign in"} <ArrowRight size={16} /></button>
         </form>
