@@ -1,4 +1,3 @@
-import "./page.css";
 import Link from "next/link";
 import { ArrowRight, Bot, Check, Globe2, Package, ShoppingBag, Sparkles, Store, Zap } from "lucide-react";
 
