@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Bot, Check, Globe2, Package, ShoppingBag, Sparkles, Store, Zap } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
 
 const features = [
   { icon: Store, title: "Your own online store", text: "Create a professional storefront where customers can discover your products and place orders." },
@@ -8,20 +10,29 @@ const features = [
   { icon: Bot, title: "AI business assistant", text: "Ask questions about your sales and generate marketing content in seconds." },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: claimsData } = await supabase.auth.getClaims();
+
+  // BIZHUB is an authenticated workspace. Visitors must sign in or create
+  // a business account before they can access the main application page.
+  if (!claimsData?.claims) {
+    redirect("/auth/login");
+  }
+
   return (
     <main>
       <nav className="nav">
         <Link href="/" className="brand"><span className="brandMark">K</span><span>Kigali <b>BIZHUB</b></span></Link>
-        <div className="navLinks"><a href="#features">Features</a><a href="#pricing">Pricing</a><Link href="/auth/sign-up" className="navButton">Open Dashboard <ArrowRight size={16} /></Link></div>
+        <div className="navLinks"><a href="#features">Features</a><a href="#pricing">Pricing</a><Link href="/dashboard" className="navButton">Open Dashboard <ArrowRight size={16} /></Link></div>
       </nav>
       <section className="hero">
         <div className="heroCopy">
           <div className="eyebrow"><Sparkles size={15} /> Built for ambitious African businesses</div>
           <h1>Turn your local business into a <span>digital business.</span></h1>
           <p className="heroText">Kigali BIZHUB gives small businesses a beautiful online store, sales dashboard, inventory tools and an AI assistant — all in one place.</p>
-          <div className="heroActions"><Link href="/auth/sign-up" className="primaryButton">Create your business <ArrowRight size={18} /></Link><a href="#features" className="secondaryButton">Explore features</a></div>
-          <div className="trust"><Check size={16} /> Start free. Upgrade when your business grows.</div>
+          <div className="heroActions"><Link href="/dashboard" className="primaryButton">Open my business <ArrowRight size={18} /></Link><a href="#features" className="secondaryButton">Explore features</a></div>
+          <div className="trust"><Check size={16} /> Your business workspace is protected by Supabase authentication.</div>
         </div>
         <div className="dashboardPreview">
           <div className="previewTop"><div><span className="dot green" /><span className="dot yellow" /><span className="dot red" /></div><span>bizhub.app/dashboard</span></div>
