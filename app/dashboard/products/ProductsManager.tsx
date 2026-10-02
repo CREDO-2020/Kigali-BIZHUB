@@ -22,7 +22,9 @@ export default function ProductsManager({businessId,currency,initialProducts,ini
   const [showForm,setShowForm]=useState(false);
   const [showCategory,setShowCategory]=useState(false);
   const [editing,setEditing]=useState<Product|null>(null);
-  const [busy,setBusy]=useState(false);\n  const [aiBusy,setAiBusy]=useState(false);\n  const [aiMessage,setAiMessage]=useState("");
+  const [busy,setBusy]=useState(false);
+  const [aiBusy,setAiBusy]=useState(false);
+  const [aiMessage,setAiMessage]=useState("");
   const [error,setError]=useState("");
 
   const filtered=useMemo(()=>products.filter(p=>p.name.toLowerCase().includes(query.toLowerCase()) || (p.sku??"").toLowerCase().includes(query.toLowerCase())),[products,query]);
@@ -45,7 +47,7 @@ export default function ProductsManager({businessId,currency,initialProducts,ini
       const shortDescription=form.elements.namedItem("short_description") as HTMLTextAreaElement|null;
       if(description)description.value=result.description||description.value;
       if(shortDescription)shortDescription.value=result.short_description||shortDescription.value;
-      setAiMessage(result.tags?.length?\`Generated copy and \${result.tags.length} product tags.\`:"Generated product copy.");
+      setAiMessage(result.tags?.length?`Generated copy and \${result.tags.length} product tags.`:"Generated product copy.");
     }catch(e){setError(e instanceof Error?e.message:"AI generation failed.");}
     finally{setAiBusy(false)}
   }
