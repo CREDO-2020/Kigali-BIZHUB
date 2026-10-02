@@ -27,7 +27,8 @@ export async function proxy(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isProtected = pathname.startsWith("/dashboard");
-  const isAuthPage = pathname.startsWith("/auth");
+  const isCallback = pathname === "/auth/callback";
+  const isAuthPage = pathname.startsWith("/auth") && !isCallback;
 
   if (isProtected) {
     const { data } = await supabase.auth.getClaims();
@@ -36,6 +37,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  // The callback must be allowed to exchange the one-time auth code.
   if (isAuthPage) {
     const { data } = await supabase.auth.getClaims();
     if (data?.claims) {
@@ -48,9 +50,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/auth/:path*",
-    "/auth/callback",
-  ],
+  matcher: ["/dashboard/:path*", "/auth/:path*"],
 };
